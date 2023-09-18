@@ -44,7 +44,7 @@ def login(bot, username, password):
 def scrape_followers(bot, userToScrap):
     navigate_to_profile(bot,userToScrap)
     WebDriverWait(bot, 15).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@href, '/followers')]")))
-    num_followers = get_followers_count(bot)
+    num_followers = get_followers_count(bot, userToScrap)
     load_all_followers(bot, num_followers, userToScrap)
     scrap_data_followers(bot, num_followers, userToScrap)
 
@@ -320,10 +320,10 @@ def main():
         driver.quit()
         print(f"[Success] - Scrapping was successfully done")
         
-        print(f"[Info] - Checking for users that arent following {username} back")
+        print(f"[Info] - Checking for users that arent following {userToScrap} back")
         not_following_back = check_not_following_back(f"{userToScrap}_following.txt", f"{userToScrap}_followers.txt")
         save_not_following_back(not_following_back, userToScrap)
-        print(f"[Success] - Saved all the users that arent following {username} back")
+        print(f"[Success] - Saved all the users that arent following {userToScrap} back")
         convert_txt_to_html(f'not_following_back_{userToScrap}.txt', f'not_following_back_{userToScrap}.html')
 
     except Exception as e:
